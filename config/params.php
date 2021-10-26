@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'adminEmail' => 'Adyard-kgn@mail.ru',
+    'senderEmail' => 'Adyard-kgn@mail.ru',
+    'senderName' => 'Grocery Store Yii2',
 ];
+
+
+//можно получать через \Yii::$app->params['ключ']
