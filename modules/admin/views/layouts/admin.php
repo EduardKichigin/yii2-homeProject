@@ -1,4 +1,5 @@
 <?php
+
 use app\assets\AdminAsset;
 use app\widgets\Alert;
 use yii\helpers\Html;
@@ -6,22 +7,46 @@ use yii\widgets\Breadcrumbs;
 
 AdminAsset::register($this);
 ?>
-
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html lang="<?= Yii::$app->language ?>">
 <head>
-
     <base href="/adminlte/">
     <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->head() ?>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <?php $this->head() ?>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
 <body class="hold-transition skin-blue sidebar-mini">
 <?php $this->beginBody() ?>
 <div class="wrapper">
@@ -30,7 +55,7 @@ AdminAsset::register($this);
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="<?=Yii::$app->homeUrl?>" class="logo" target="_blank">
+        <a href="<?= Yii::$app->homeUrl ?>" class="logo" target="_blank">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>LT</span>
             <!-- logo for regular state and mobile devices -->
@@ -149,7 +174,7 @@ AdminAsset::register($this);
                             <!-- The user image in the navbar-->
                             <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs"><?=Yii::$app->user->identity->username?></span>
+                            <span class="hidden-xs"><?= Yii::$app->user->identity->username ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -157,7 +182,7 @@ AdminAsset::register($this);
                                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    <?=Yii::$app->user->identity->username?>
+                                    <?= Yii::$app->user->identity->username ?>
                                 </p>
                             </li>
                             <!-- Menu Footer-->
@@ -166,7 +191,7 @@ AdminAsset::register($this);
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="<?= \yii\helpers\Url::to(['auth/logout'])?>" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="<?= \yii\helpers\Url::to(['auth/logout']) ?>" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -180,19 +205,19 @@ AdminAsset::register($this);
         </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
-	<?=  $this->render('/layouts/inc/sidebar')?>
+    <?= $this->render('/layouts/inc/sidebar') ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                <?=$this->title?>
+                <?= $this->title ?>
             </h1>
             <?= Breadcrumbs::widget([
-            		'homeLink' => ['label' => 'Главная', 'url' => '/admin'],
-                                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                                    ]) ?>
+                'homeLink' => ['label' => 'Главная', 'url' => '/admin/'],
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
             <?= Alert::widget() ?>
         </section>
 
@@ -202,11 +227,8 @@ AdminAsset::register($this);
             <!--------------------------
               | Your Page Content Here |
               -------------------------->
-<?// debug(Yii::$app->user->identity);?>
-<!--			посмотрели обьект пользователя-->
 
-
-            <?= $content?>
+            <?= $content ?>
 
         </section>
         <!-- /.content -->
@@ -302,13 +324,7 @@ AdminAsset::register($this);
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED JS SCRIPTS -->
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
-

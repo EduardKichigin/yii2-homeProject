@@ -11,9 +11,9 @@ use Yii;
  * @property int $order_id
  * @property int $product_id
  * @property string $title
- * @property float $price
+ * @property string $price
  * @property int $qty
- * @property float $total
+ * @property string $total
  */
 class OrderProduct extends \yii\db\ActiveRecord
 {
@@ -23,6 +23,11 @@ class OrderProduct extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'order_product';
+    }
+
+    public function getOrder()
+    {
+        return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
 
     /**

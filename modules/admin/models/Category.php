@@ -10,8 +10,8 @@ use Yii;
  * @property int $id
  * @property int $parent_id
  * @property string $title
- * @property string|null $description
- * @property string|null $keywords
+ * @property string $description
+ * @property string $keywords
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -21,6 +21,11 @@ class Category extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'category';
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::class, ['id' => 'parent_id']);
     }
 
     /**
@@ -42,10 +47,10 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'parent_id' => 'Parent ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'keywords' => 'Keywords',
+            'parent_id' => 'Родительская категория',
+            'title' => 'Наименование',
+            'description' => 'Описание',
+            'keywords' => 'Ключевые слова',
         ];
     }
 }

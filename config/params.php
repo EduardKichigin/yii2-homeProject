@@ -1,10 +1,7 @@
 <?php
 
 return [
-    'adminEmail' => 'Adyard-kgn@mail.ru',
-    'senderEmail' => 'Adyard-kgn@mail.ru',
-    'senderName' => 'Grocery Store Yii2',
+    'adminEmail' => 'matroskin8@i.ua',
+    'senderEmail' => 'yii2_loc@ukr.net',
+    'senderName' => 'Grocery Store a Ecommerce Online Shopping',
 ];
-
-
-//можно получать через \Yii::$app->params['ключ']

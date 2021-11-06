@@ -1,12 +1,9 @@
 <?php
 
-
 namespace app\modules\admin\controllers;
-
 
 use app\models\LoginForm;
 use Yii;
-use yii\base\BaseObject;
 
 class AuthController extends AppAdminController
 {
@@ -22,7 +19,8 @@ class AuthController extends AppAdminController
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/admin');
+//            return $this->goBack();
         }
 
         $model->password = '';
@@ -34,9 +32,7 @@ class AuthController extends AppAdminController
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->redirect('/admin');
-
 //        return $this->goHome();
     }
 

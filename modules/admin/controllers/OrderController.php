@@ -2,6 +2,8 @@
 
 namespace app\modules\admin\controllers;
 
+use app\modules\admin\models\OrderProduct;
+use Yii;
 use app\modules\admin\models\Order;
 use yii\data\ActiveDataProvider;
 use app\modules\admin\controllers\AppAdminController;
@@ -14,21 +16,18 @@ use yii\filters\VerbFilter;
 class OrderController extends AppAdminController
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -39,16 +38,14 @@ class OrderController extends AppAdminController
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Order::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
+            /*'pagination' => [
+                'pageSize' => 2,
+            ],*/
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
+                    'status' => SORT_ASC,
                 ]
-            ],
-            */
+            ]
         ]);
 
         return $this->render('index', [
@@ -58,7 +55,7 @@ class OrderController extends AppAdminController
 
     /**
      * Displays a single Order model.
-     * @param int $id ID
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -78,12 +75,8 @@ class OrderController extends AppAdminController
     {
         $model = new Order();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -94,7 +87,7 @@ class OrderController extends AppAdminController
     /**
      * Updates an existing Order model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -102,7 +95,8 @@ class OrderController extends AppAdminController
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Заказ обновлен');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -114,13 +108,15 @@ class OrderController extends AppAdminController
     /**
      * Deletes an existing Order model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
+        //$this->findModel($id)->unlinkAll('orderProduct', true);
         $this->findModel($id)->delete();
+        OrderProduct::deleteAll(['order_id' => $id]);
 
         return $this->redirect(['index']);
     }
@@ -128,7 +124,7 @@ class OrderController extends AppAdminController
     /**
      * Finds the Order model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
+     * @param integer $id
      * @return Order the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

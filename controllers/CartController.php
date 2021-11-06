@@ -15,7 +15,7 @@ class CartController extends AppController
         $id = \Yii::$app->request->get('id');
         $qty = \Yii::$app->request->get('qty');
         $product = Product::findOne($id);
-        if (empty($product)) {
+        if(empty($product)){
             return false;
         }
         $session = \Yii::$app->session;
@@ -28,14 +28,14 @@ class CartController extends AppController
     public function actionAdd($id)
     {
         $product = Product::findOne($id);
-        if (empty($product)) {
+        if(empty($product)){
             return false;
         }
         $session = \Yii::$app->session;
         $session->open();
         $cart = new Cart();
         $cart->addToCart($product);
-        if (\Yii::$app->request->isAjax) {
+        if(\Yii::$app->request->isAjax){
             return $this->renderPartial('cart-modal', compact('session'));
         }
         return $this->redirect(\Yii::$app->request->referrer);
@@ -55,7 +55,7 @@ class CartController extends AppController
         $session->open();
         $cart = new Cart();
         $cart->recalc($id);
-        if (\Yii::$app->request->isAjax) {
+        if(\Yii::$app->request->isAjax){
             return $this->renderPartial('cart-modal', compact('session'));
         }
         return $this->redirect(\Yii::$app->request->referrer);
@@ -78,29 +78,26 @@ class CartController extends AppController
 
         $order = new Order();
         $order_product = new OrderProduct();
-        if ($order->load(\Yii::$app->request->post())) {
+        if($order->load(\Yii::$app->request->post())){
             $order->qty = $session['cart.qty'];
             $order->total = $session['cart.sum'];
             $transaction = \Yii::$app->getDb()->beginTransaction();
-            if (!$order->save() || !$order_product->saveOrderProducts($session['cart'], $order->id)) {
+            if(!$order->save() || !$order_product->saveOrderProducts($session['cart'], $order->id)){
                 \Yii::$app->session->setFlash('error', 'Ошибка оформления заказа');
                 $transaction->rollBack();
-            } else {
+            }else{
                 $transaction->commit();
                 \Yii::$app->session->setFlash('success', 'Ваш заказ принят');
 
-                try {
+                try{
                     \Yii::$app->mailer->compose('order', ['session' => $session])
-                        ->setFrom([\Yii::$app->params['senderEmail'] =>
-                            \Yii::$app->params['senderName']])
+                        ->setFrom([\Yii::$app->params['senderEmail'] => \Yii::$app->params['senderName']])
                         ->setTo([$order->email, \Yii::$app->params['adminEmail']])
-                        ->setSubject('Заказ на сайте')->send();
-                }catch(\Swift_TransportException $e) {
-//                    var_dump($e);
-//                    die;
-//                    можно логировать или показать ошибку
+                        ->setSubject('Заказ на сайте')
+                        ->send();
+                }catch (\Swift_TransportException $e){
+                    //var_dump($e); die;
                 }
-
 
 
                 $session->remove('cart');

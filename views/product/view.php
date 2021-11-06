@@ -6,8 +6,6 @@
             <li>
                 <a href="<?= \yii\helpers\Url::to(['category/view', 'id' => $product->category->id]) ?>"><?= $product->category->title ?></a>
                 <span>|</span>
-                <?/*= \yii\helpers\Html::a($product->category->title, ['category/view', 'id' => $product->category->id]) */?><!--
-                <span>|</span>-->
             </li>
             <li><?= $product->title; ?></li>
         </ul>
@@ -25,7 +23,7 @@
         <div class="agileinfo_single">
             <h5><?= $product->title ?></h5>
             <div class="col-md-4 agileinfo_single_left">
-                <?= \yii\helpers\Html::img("@web/products/{$product->img}", ['alt' => $product->title, 'id' => 'example']) ?>
+                <?= \yii\helpers\Html::img("@web/{$product->img}", ['alt' => $product->title, 'id' => 'example']) ?>
             </div>
             <div class="col-md-8 agileinfo_single_right">
                 <div class="rating1">

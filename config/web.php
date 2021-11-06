@@ -7,10 +7,10 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-	'defaultRoute' => 'home/index',
-	'language' => 'ru',
-	'name' => 'Grocery store',
-	'layout' => 'grocery',
+    'defaultRoute' => 'home/index',
+    'language' => 'ru',
+    'name' => 'Grocery Store a Ecommerce Online Shopping',
+    'layout' => 'grocery',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -20,26 +20,26 @@ $config = [
             'class' => 'app\modules\admin\Module',
             'layout' => 'admin',
             'defaultRoute' => 'main/index',
-
-
         ],
     ],
     'components' => [
-		'assetManager' => [
-			'bundles' => [
-				'yii\web\JqueryAsset' => [
-					'sourcePath' => null,   // не опубликовывать комплект
-					'js' => [
-						'js/jquery-1.11.1.min.js',
-					]
-				],
-			],
-		],
+        'formatter' => [
+            'datetimeFormat' => 'php:d F Y H:i:s',
+        ],
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'sourcePath' => null,   // не опубликовывать комплект
+                    'js' => [
+                        'js/jquery-1.11.1.min.js',
+                    ]
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'vQqAss35vlvi23OuTm0_Qc4Xm3EXZZSz',
-			'baseUrl' => '',
-//			чтобы убрать /web/
+            'cookieValidationKey' => 'ALgag-v1841oUVVB-0g1vMxfSdQuLKFs',
+            'baseUrl' => '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -60,11 +60,11 @@ $config = [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.mail.ru',
-                'username' => 'Adyard-kgn@mail.ru',
-                'password' => 'Fearless252525',
-                'port' => '465',
-                'encryption' => 'ssl',
+                'host' => 'smtp.ukr.net',
+                'username' => 'yii2_loc@ukr.net',
+                'password' => 'password',
+                'port' => '2525', // 465
+                'encryption' => 'ssl', // tls
             ],
         ],
         'log' => [
@@ -77,20 +77,27 @@ $config = [
             ],
         ],
         'db' => $db,
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-			'enableStrictParsing' => false,
-//			добавили для чпу
+            'enableStrictParsing' => false,
             'rules' => [
-				'category/<id:\d+>/page/<page:\d+>' => 'category/view',
-            	'category/<id:\d+>' => 'category/view',
-				'product/<id:\d+>' => 'product/view',
-				'search' => 'category/search',
+                'category/<id:\d+>/page/<page:\d+>' => 'category/view',
+                'category/<id:\d+>' => 'category/view',
+                'product/<id:\d+>' => 'product/view',
+                'search' => 'category/search',
             ],
         ],
-
+    ],
+    'controllerMap' => [
+        'elfinder' => [
+            'class' => 'mihaildev\elfinder\PathController',
+            'access' => ['@'],
+            'root' => [
+                'path' => 'upload/files',
+                'name' => 'Files'
+            ],
+        ]
     ],
     'params' => $params,
 ];
